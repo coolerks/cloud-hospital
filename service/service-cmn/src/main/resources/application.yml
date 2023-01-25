@@ -1,0 +1,24 @@
+server:
+  port: 8202
+spring:
+  application:
+    name: service-cmn
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/yygh_cmn
+    username: root
+    password: 20020327
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+logging:
+  level:
+    top.integer.yygh.cmn.mapper: debug
+
