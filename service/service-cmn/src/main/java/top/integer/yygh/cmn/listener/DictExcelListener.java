@@ -25,7 +25,6 @@ public class DictExcelListener implements ReadListener<Dict> {
         }
         list.add(dict);
         if (list.size() == 300) {
-//            System.out.println("list = " + list);
             mapper.insertBatch(list);
             list.clear();
         }

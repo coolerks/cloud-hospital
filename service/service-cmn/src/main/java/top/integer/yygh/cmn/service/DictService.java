@@ -8,6 +8,8 @@ import com.alibaba.excel.write.metadata.WriteSheet;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.integer.yygh.cmn.listener.DictExcelListener;
@@ -27,6 +29,7 @@ public class DictService extends ServiceImpl<DictMapper, Dict> {
     @Autowired
     private DictExcelListener listener;
 
+    @Cacheable(value = "dict", keyGenerator = "keyGenerator")
     public List<Dict> getDictByParentId(Long id) {
         return baseMapper.getAllByIdDictId(id);
     }
@@ -61,6 +64,7 @@ public class DictService extends ServiceImpl<DictMapper, Dict> {
     }
 
 
+    @CacheEvict(value = "dict", allEntries = true)
     public void importDictData(MultipartFile multipartFile) throws IOException {
         try(ExcelReader excelReader = EasyExcel.read(multipartFile.getInputStream(), Dict.class, listener).build()) {
             ReadSheet readSheet = EasyExcel.readSheet(0).build();
