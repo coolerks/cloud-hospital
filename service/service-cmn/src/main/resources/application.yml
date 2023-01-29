@@ -1,5 +1,5 @@
 server:
-  port: 8202
+  port: 18202
 spring:
   application:
     name: service-cmn
@@ -29,6 +29,9 @@ spring:
         max-wait: -1
         max-idle: 5
         min-idle: 0
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/user
 logging:
   level:
     top.integer.yygh.cmn.mapper: debug

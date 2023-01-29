@@ -2,6 +2,8 @@ package top.integer.yygh;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
@@ -10,13 +12,9 @@ import java.util.Date;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+@Document("user")
 public class User {
-    @ExcelProperty("用户编号")
-    Integer id;
-    @ExcelProperty("姓名")
-    String name;
-    @ExcelProperty("日期")
-    String date;
-
-    String another;
+    @Id
+    private String id;
+    private String username, password;
 }

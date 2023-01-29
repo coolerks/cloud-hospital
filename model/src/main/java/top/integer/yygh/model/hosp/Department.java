@@ -1,5 +1,6 @@
 package top.integer.yygh.model.hosp;
 
+import org.springframework.data.annotation.Id;
 import top.integer.yygh.model.base.BaseMongoEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,7 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ApiModel(description = "Department")
 @Document("Department")
 public class Department extends BaseMongoEntity {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "医院编号")
