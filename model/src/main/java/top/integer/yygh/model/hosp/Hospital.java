@@ -1,6 +1,7 @@
 package top.integer.yygh.model.hosp;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.ToString;
 import top.integer.yygh.model.base.BaseMongoEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,10 +19,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @ApiModel(description = "Hospital")
 @Document("Hospital")
+@ToString
 public class Hospital extends BaseMongoEntity {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@ApiModelProperty(value = "医院编号")
 	@Indexed(unique = true) //唯一索引
 	private String hoscode;

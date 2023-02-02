@@ -21,6 +21,15 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/yygh_hosp
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 logging:
   level:
     top.integer.yygh.mapper: debug

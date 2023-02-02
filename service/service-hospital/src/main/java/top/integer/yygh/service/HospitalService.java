@@ -1,6 +1,7 @@
 package top.integer.yygh.service;
 
 import com.mongodb.client.result.DeleteResult;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -8,12 +9,17 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import top.integer.yygh.client.DictFeignClient;
 import top.integer.yygh.common.exception.YyghException;
 import top.integer.yygh.common.result.ResultCodeEnum;
 import top.integer.yygh.common.utils.MD5;
 import top.integer.yygh.model.hosp.Department;
 import top.integer.yygh.model.hosp.Hospital;
+import top.integer.yygh.model.hosp.Schedule;
 import top.integer.yygh.repository.DepartmentRepository;
+import top.integer.yygh.repository.HospitalRepository;
+import top.integer.yygh.repository.ScheduleRepository;
+import top.integer.yygh.vo.hosp.HospitalQueryVo;
 
 
 import java.util.Date;
@@ -28,6 +34,12 @@ public class HospitalService {
 
     @Autowired
     DepartmentRepository departmentRepository;
+    @Autowired
+    ScheduleRepository scheduleRepository;
+    @Autowired
+    HospitalRepository hospitalRepository;
+    @Autowired
+    DictFeignClient client;
 
     public void verify(String hoscode, String sign) {
         String sign1 = MD5.encrypt(hospitalSetService.getSign(hoscode));
@@ -107,7 +119,7 @@ public class HospitalService {
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-                        .withIgnoreCase(true);
+                .withIgnoreCase(true);
         Department department = new Department();
         department.setHoscode(hoscode);
         Example<Department> example = Example.of(department, matcher);
@@ -117,5 +129,61 @@ public class HospitalService {
     public boolean removeDepartment(String hoscode, String depcode) {
         DeleteResult remove = template.remove(new Query(Criteria.where("hoscode").is(hoscode).and("depcode").is(depcode)), Department.class);
         return remove.getDeletedCount() == 1;
+    }
+
+    public void saveSchedule(Schedule schedule) {
+        Query query = new Query(Criteria.where("hoscode").is(schedule.getHoscode()).and("depcode").is(schedule.getDepcode()).and("hosScheduleId").is(schedule.getHosScheduleId()));
+        Schedule schedule1 = template.findOne(query, Schedule.class);
+        if (schedule1 == null) {
+            schedule.setCreateTime(new Date());
+            schedule.setUpdateTime(new Date());
+            schedule.setIsDeleted(0);
+            template.insert(schedule);
+        } else {
+            schedule.setId(schedule1.getId());
+            schedule.setCreateTime(schedule1.getCreateTime());
+            schedule.setUpdateTime(new Date());
+            schedule.setIsDeleted(schedule1.getIsDeleted());
+            Update update = new Update();
+            update.set("hoscode", schedule.getHoscode());
+            update.set("depcode", schedule.getDepcode());
+            update.set("hosScheduleId", schedule.getHosScheduleId());
+            update.set("workDate", schedule.getWorkDate());
+            update.set("title", schedule.getTitle());
+            update.set("availableNumber", schedule.getAvailableNumber());
+            update.set("updateTime", new Date());
+            template.upsert(query, update, Schedule.class);
+        }
+    }
+
+    public Page getScheduleList(String hoscode, Integer pageNum, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreCase(true);
+        Schedule schedule = new Schedule();
+        schedule.setHoscode(hoscode);
+        Example<Schedule> example = Example.of(schedule, matcher);
+        return scheduleRepository.findAll(example, pageable);
+    }
+
+    public boolean removeSchedule(String hoscode, String hosScheduleId) {
+        Query query = new Query(Criteria.where("hoscode").is(hoscode).and("hosScheduleId").is(hosScheduleId));
+        return template.remove(query, Schedule.class).getDeletedCount() == 1;
+    }
+
+    public Page<Hospital> getHospitalList(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo) {
+        Hospital hospital = new Hospital();
+        BeanUtils.copyProperties(hospitalQueryVo, hospital);
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreCase(true);
+        Example<Hospital> example = Example.of(hospital, matcher);
+//        System.out.println("client.getName(\"2\") = " + client.getName("2"));
+        Page<Hospital> pages = hospitalRepository.findAll(example, pageable);
+        pages.getContent().forEach(it -> it.getParam().put("hostypeString", client.getName("Hostype", it.getHostype())));
+        pages.getContent().forEach(it -> it.getParam().put("fullAddress", client.getName(it.getProvinceCode()) + client.getName(it.getCityCode()) + client.getName(it.getDistrictCode())));
+        return pages;
     }
 }

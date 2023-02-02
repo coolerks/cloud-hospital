@@ -39,4 +39,8 @@ public interface DictMapper extends BaseMapper<Dict> {
     List<Dict> getAll();
 
     int insertBatch(List<Dict> list);
+
+
+    @Select("select d1.id id, d1.parent_id parent, d1.name name, d1.dict_code dict_code, d1.create_time create_time, d1.update_time update_time, d1.is_deleted is_delete, 0 has_children from dict d1 join dict d2 on d1.parent_id = d2.id where d1.value = #{value} and d2.dict_code = #{dictCode}")
+    Dict getDict(String value, String dictCode);
 }

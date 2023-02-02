@@ -5,11 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>top.integer</groupId>
-        <artifactId>service</artifactId>
-        <version>1.0</version>
+        <artifactId>hospital</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
+    <packaging>pom</packaging>
+    <modules>
+        <module>service-cmn-client</module>
+    </modules>
 
-    <artifactId>service-hospital</artifactId>
+    <artifactId>service-client</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -19,32 +23,25 @@
     <dependencies>
         <dependency>
             <groupId>top.integer</groupId>
-            <artifactId>model</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <artifactId>common-util</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>top.integer</groupId>
-            <artifactId>service-cmn-client</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <artifactId>model</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

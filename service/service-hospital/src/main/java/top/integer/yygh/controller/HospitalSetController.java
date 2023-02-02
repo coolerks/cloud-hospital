@@ -23,7 +23,7 @@ import java.util.Random;
 @RequestMapping("/admin/hosp/hospitalSet")
 @Api(tags = "医院设置管理")
 @Slf4j
-@CrossOrigin
+//@CrossOrigin
 public class HospitalSetController {
     @Autowired
     private HospitalSetService service;

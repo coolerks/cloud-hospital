@@ -32,6 +32,15 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/user
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: '*'
 logging:
   level:
     top.integer.yygh.cmn.mapper: debug

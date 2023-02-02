@@ -5,6 +5,8 @@ import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.read.metadata.ReadSheet;
 import com.alibaba.excel.write.metadata.WriteSheet;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,5 +72,13 @@ public class DictService extends ServiceImpl<DictMapper, Dict> {
             ReadSheet readSheet = EasyExcel.readSheet(0).build();
             excelReader.read(readSheet);
         }
+    }
+
+    public String getName(String dictCode, String value) {
+        if (dictCode == null || "".equals(dictCode)) {
+
+            return baseMapper.selectOne(new LambdaQueryWrapper<Dict>().select(Dict::getName).eq(Dict::getValue, value)).getName();
+        }
+        return baseMapper.getDict(value, dictCode).getName();
     }
 }

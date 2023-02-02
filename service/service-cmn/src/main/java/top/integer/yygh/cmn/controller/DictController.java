@@ -37,4 +37,14 @@ public class DictController {
         service.importDictData(multipartFile);
     }
 
+    @RequestMapping("/getname/{dictCode}/{value}")
+    public String getName(@PathVariable String dictCode, @PathVariable String value) {
+        return service.getName(dictCode, value);
+    }
+
+    @RequestMapping("/getname/{value}")
+    public String getName(@PathVariable String value) {
+        return service.getName(null, value);
+    }
+
 }
