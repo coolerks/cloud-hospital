@@ -21,4 +21,16 @@ public class HospitalController {
         Page<Hospital> res = service.getHospitalList(page, limit, hospitalQueryVo);
         return Result.ok(res);
     }
+
+    @RequestMapping("/status/{id}/{status}")
+    public Result changeStatus(@PathVariable String id, @PathVariable Integer status) {
+        if (service.changeStatus(id, status)) {
+            return Result.ok();
+        }
+        return Result.fail();
+    }
+    @RequestMapping("/{id}")
+    public Result getHospital(@PathVariable String id) {
+        return Result.ok(service.getHospitalById(id));
+    }
 }

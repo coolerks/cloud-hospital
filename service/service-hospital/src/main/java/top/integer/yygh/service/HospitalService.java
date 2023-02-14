@@ -1,6 +1,7 @@
 package top.integer.yygh.service;
 
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -186,4 +187,21 @@ public class HospitalService {
         pages.getContent().forEach(it -> it.getParam().put("fullAddress", client.getName(it.getProvinceCode()) + client.getName(it.getCityCode()) + client.getName(it.getDistrictCode())));
         return pages;
     }
+
+    public boolean changeStatus(String id, Integer status) {
+        Query query = new Query(Criteria.where("id").is(id));
+        Hospital hospital = template.findOne(query, Hospital.class);
+        assert hospital != null;
+        hospital.setStatus(status);
+        Update update = new Update();
+        update.set("status", status);
+        UpdateResult upsert = template.upsert(query, update, Hospital.class);
+        return upsert.getModifiedCount() == 1;
+    }
+
+    public Hospital getHospitalById(String id) {
+        return template.findOne(new Query(Criteria.where("id").is(id)), Hospital.class);
+    }
+
+
 }
