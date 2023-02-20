@@ -1,0 +1,35 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: service-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: service-hospital
+          uri: lb://service-hospital
+          predicates:
+            - Path=/*/hosp/**
+        - id: service-cmn
+          uri: lb://service-cmn
+          predicates:
+            - Path=/*/cmn/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins:
+              - http://localhost:9527
+              - http://localhost:3555
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTION
+            allowed-headers: "*"

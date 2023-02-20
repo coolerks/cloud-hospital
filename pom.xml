@@ -16,6 +16,7 @@
         <module>model</module>
         <module>service</module>
         <module>service-client</module>
+        <module>service-gateway</module>
     </modules>
     <version>0.0.1-SNAPSHOT</version>
     <name>hospital</name>
