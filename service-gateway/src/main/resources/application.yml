@@ -25,7 +25,7 @@ spring:
           '[/**]':
             allowed-origins:
               - http://localhost:9527
-              - http://localhost:3555
+              - http://localhost:3000
             allowed-methods:
               - GET
               - POST

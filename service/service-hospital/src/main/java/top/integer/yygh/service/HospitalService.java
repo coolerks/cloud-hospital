@@ -24,6 +24,7 @@ import top.integer.yygh.vo.hosp.HospitalQueryVo;
 
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class HospitalService {
@@ -204,4 +205,7 @@ public class HospitalService {
     }
 
 
+    public List<Hospital> findByHosName(String hosname) {
+        return template.find(new Query(Criteria.where("hosname").is(hosname)), Hospital.class);
+    }
 }
