@@ -1,0 +1,35 @@
+server:
+  port: 18204
+spring:
+  application:
+    name: service-sms
+  profiles:
+    active: dev
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+        file-extension: yml
+        prefix: service-sms
+  redis:
+    database: 4
+    port: 6379
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+logging:
+  level:
+    top.integer.yygh.mapper: debug

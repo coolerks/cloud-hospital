@@ -15,6 +15,7 @@
         <module>service-user</module>
         <module>service-hospital</module>
         <module>service-cmn</module>
+        <module>service-sms</module>
     </modules>
     <version>1.0</version>
     <dependencies>
@@ -34,11 +35,6 @@
 <!--&lt;!&ndash;            <version>1.0</version>&ndash;&gt;-->
 <!--        </dependency>-->
         <!--web-->
-        <dependency>
-            <groupId>top.integer</groupId>
-            <artifactId>service-hospital</artifactId>
-            <version>1.0</version>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

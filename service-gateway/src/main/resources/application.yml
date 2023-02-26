@@ -20,12 +20,20 @@ spring:
           uri: lb://service-cmn
           predicates:
             - Path=/*/cmn/**
+        - id: service-user
+          uri: lb://service-user
+          predicates:
+            - Path=/*/user/**
+        - id: service-sms
+          uri: lb://service-sms
+          predicates:
+            - Path=/*/sms/**
       globalcors:
         cors-configurations:
           '[/**]':
             allowed-origins:
               - http://localhost:9527
-              - http://localhost:3000
+              - http://localhost:13000
             allowed-methods:
               - GET
               - POST
