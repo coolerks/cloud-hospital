@@ -2,6 +2,8 @@ package top.integer.yygh.user.service;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import top.integer.yygh.common.exception.YyghException;
 import top.integer.yygh.common.helper.JwtHelper;
@@ -15,6 +17,9 @@ import java.util.Map;
 @Service
 public class UserInfoService extends ServiceImpl<UserInfoMapper, UserInfo> {
 
+    @Autowired
+    StringRedisTemplate template;
+
     public Map<String, Object> login(LoginVo loginVo) {
         // 获取手机号和验证码
         String phone = loginVo.getPhone();
@@ -23,7 +28,14 @@ public class UserInfoService extends ServiceImpl<UserInfoMapper, UserInfo> {
         if (phone == null || "".equals(phone) || verifyCode == null || "".equals(verifyCode)) {
             throw new YyghException(ResultCodeEnum.PARAM_ERROR);
         }
-        // todo 判断验证码一致性
+
+        // 判断验证码一致性
+        String code = template.opsForValue().get(phone);
+//        System.out.println("code = " + code + ", phone = " + phone);
+        if (code == null || !code.equals(verifyCode)) {
+            throw new YyghException(ResultCodeEnum.CODE_ERROR);
+        }
+        template.delete(phone);
 
         // 判断是否第一次登录
         LambdaUpdateWrapper<UserInfo> queryWrapper = new LambdaUpdateWrapper<>();

@@ -9,6 +9,8 @@ spring:
     url: jdbc:mysql://localhost:3306/yygh_user
     username: root
     password: 20020327
+  redis:
+    database: 4
   mvc:
     hiddenmethod:
       filter:
@@ -22,3 +24,8 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+wx:
+  open:
+    app_id: wxed9954c01bb89b47
+    app_secret: a7482517235173ddb4083788de60b90e
+    redirect_url: http://localhost:8160/api/ucenter/wx/callback

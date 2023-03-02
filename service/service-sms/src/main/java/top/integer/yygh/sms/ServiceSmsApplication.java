@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
+import java.util.Stack;
+
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class, scanBasePackages = "top.integer")
 @EnableDiscoveryClient
 public class ServiceSmsApplication {
@@ -12,3 +14,4 @@ public class ServiceSmsApplication {
         SpringApplication.run(ServiceSmsApplication.class, args);
     }
 }
+
