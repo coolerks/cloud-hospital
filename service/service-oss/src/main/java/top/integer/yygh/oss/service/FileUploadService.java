@@ -17,6 +17,7 @@ public class FileUploadService {
     @Autowired
     private OssUploadComponent ossUploadComponent;
 
+
     @Value("${oss.bucketName}")
     private String bucketName;
 
