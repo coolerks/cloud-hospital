@@ -17,6 +17,10 @@ public class YyghException extends RuntimeException {
     @ApiModelProperty(value = "异常状态码")
     private Integer code;
 
+    private Object data;
+
+    private ResultCodeEnum resultCodeEnum;
+
     /**
      * 通过状态码和错误消息创建异常对象
      * @param message
@@ -34,6 +38,16 @@ public class YyghException extends RuntimeException {
     public YyghException(ResultCodeEnum resultCodeEnum) {
         super(resultCodeEnum.getMessage());
         this.code = resultCodeEnum.getCode();
+        this.resultCodeEnum = resultCodeEnum;
+    }
+
+    public YyghException(ResultCodeEnum resultCodeEnum, Object data) {
+        this(resultCodeEnum);
+        this.data = data;
+    }
+
+    public Object getData() {
+        return data;
     }
 
     @Override

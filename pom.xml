@@ -35,7 +35,6 @@
         <aliyun.version>4.1.1</aliyun.version>
         <oss.version>3.9.1</oss.version>
         <jodatime.version>2.10.1</jodatime.version>
-
     </properties>
     <dependencyManagement>
         <dependencies>

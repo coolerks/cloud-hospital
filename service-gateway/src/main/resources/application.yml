@@ -24,10 +24,18 @@ spring:
           uri: lb://service-user
           predicates:
             - Path=/*/user/**
+        - id: service-user
+          uri: lb://service-user
+          predicates:
+            - Path=/*/ucenter/**
         - id: service-sms
           uri: lb://service-sms
           predicates:
             - Path=/*/sms/**
+        - id: service-oss
+          uri: lb://service-oss
+          predicates:
+            - Path=/*/oss/**
       globalcors:
         cors-configurations:
           '[/**]':
